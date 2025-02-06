@@ -1,0 +1,44 @@
+name: Build and deploy
+
+on:
+  workflow_dispatch:
+  
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: "echo Building project"
+
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: dev
+    strategy:
+      matrix:
+        include:
+          - server: server1
+          - server: server2
+    
+    steps:
+      - name: Deploy to server
+        run: "echo Deploying to ${{ matrix.server }}"
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: prod
+    strategy:
+      matrix:
+        include:
+          - server: server3
+          - server: server4
+    
+    steps:
+      - name: Deploy to server
+        run: "echo Deploying to ${{ matrix.server }}"
