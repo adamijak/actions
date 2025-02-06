@@ -1,0 +1,20 @@
+name: Deploy with input
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Tag'
+        required: true
+        type: string
+      environment:
+        description: 'Environment'
+        type: environment
+        required: true
+
+jobs:
+  print-tag:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.print_tags }} 
+    steps:
+      - name: Print the input tag to STDOUT
+        run: echo  The tags are ${{ inputs.tags }} 
